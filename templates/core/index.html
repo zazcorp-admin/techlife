@@ -750,11 +750,21 @@
                                         </div>
                                     </form>
                                 </div>
-                                <ul class="metabar-block">
+                                {% if request.user.is_authenticated %}
+                                    <ul class="metabar-block">
                                     <li class="icon"><a href="#"><i class="fas fa-bookmark"></i></a></li>
                                     <li class="icon"><a href="#"><i class="fas fa-bell"></i></a></li>
                                     <li><a href="#"><img src="/media/assets/images/others/author.png" alt="Author Images"></a></li>
                                 </ul>
+                                {% else %}
+                                    <ul class="metabar-block">
+                                    <li class="icon"><a href="#"><i class="fas fa-bookmark"></i></a></li>
+                                    <li class="icon"><a href="#"><i class="fas fa-bell"></i></a></li>
+                                    <li><a href="{% url 'login'  %}">Login</a></li>
+                                    <li><a href="{% url 'signup'  %}">signup</a></li>
+                                </ul>
+                                {% endif %}
+                                
                                 <!-- Start Hamburger Menu  -->
                                 <div class="hamburger-menu d-block d-xl-none">
                                     <div class="hamburger-inner">
