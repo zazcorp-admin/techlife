@@ -61,26 +61,33 @@
                         <div class="col-md-6">
                             <div class="signup-form">
                                 <h2 class="signup-header text-center mb-4">Create Your Account</h2>
-                                <form>
+                                {% include 'base/alert.html' %}
+                                <form method="post">
+                                    {% csrf_token %}
                                     <div class="form-floating mb-3">
-                                        <input type="text" class="form-control" id="floatingName" placeholder="Full Name">
+                                        <input type="text" name="fullName" class="form-control" id="floatingName" placeholder="Full Name">
                                         <label for="floatingName">Full Name</label>
                                     </div>
                                     <div class="form-floating mb-3">
-                                        <input type="email" class="form-control" id="floatingEmail" placeholder="name@example.com">
+                                        <input type="email" name="email" class="form-control" id="floatingEmail" placeholder="name@example.com">
                                         <label for="floatingEmail">Email address</label>
                                     </div>
                                     <div class="form-floating mb-3">
-                                        <input type="password" class="form-control" id="floatingPassword" placeholder="Password">
+                                        <input type="password" name="pass1" class="form-control" id="floatingPassword" placeholder="Password">
                                         <label for="floatingPassword">Password</label>
                                     </div>
                                     <div class="form-floating mb-3">
-                                        <input type="password" class="form-control" id="floatingConfirmPassword" placeholder="Confirm Password">
+                                        <input type="password" name="pass2" class="form-control" id="floatingConfirmPassword" placeholder="Confirm Password">
                                         <label for="floatingConfirmPassword">Confirm Password</label>
                                     </div>
                                     <div class="d-grid">
                                         <button class="btn btn-signup btn-lg" type="submit">Sign Up</button>
+
                                     </div>
+                                    <div class="d-grid justify-content-center pt-2 mt-2">
+                                        <h5>Already have an account <a href="{% url 'login' %}">Login</a></h5>
+                                    </div>
+
                                 </form>
                             </div>
                         </div>

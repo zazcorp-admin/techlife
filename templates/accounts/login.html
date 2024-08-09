@@ -81,13 +81,15 @@
                         <div class="col-md-6">
                             <div class="signin-form">
                                 <h2 class="signin-header text-center mb-4">Welcome Back</h2>
-                                <form>
+                                {% include 'base/alert.html' %}
+                                <form method="post" novalidate>
+                                    {% csrf_token %}
                                     <div class="form-floating mb-3">
-                                        <input type="email" class="form-control" id="floatingEmail" placeholder="name@example.com">
+                                        <input type="email" name="username"  class="form-control" id="floatingEmail" placeholder="name@example.com">
                                         <label for="floatingEmail">Email address</label>
                                     </div>
                                     <div class="form-floating mb-3">
-                                        <input type="password" class="form-control" id="floatingPassword" placeholder="Password">
+                                        <input type="password" name="password" class="form-control" id="floatingPassword" placeholder="Password">
                                         <label for="floatingPassword">Password</label>
                                     </div>
                                     <div class="d-grid">
@@ -98,7 +100,7 @@
                                     </div>
                                 </form>
                                 <div class="signup-link">
-                                    Don't have an account? <a href="#">Sign up</a>
+                                    Don't have an account? <a href="{% url 'signup' %}">Sign up</a>
                                 </div>
                             </div>
                         </div>
