@@ -10,3 +10,5 @@ class Profile(BaseModel):
     is_email_verified = models.BooleanField(default=True)
     email_token = models.CharField(max_length=100, null=True, blank=True)
     profile_image = models.ImageField(upload_to='profile', blank= True)
+
+
