@@ -57,3 +57,8 @@ def logout_page(request):
     logout(request)
     return redirect('/')
 
+
+def dashboard(request):
+    context = {}
+
+    return render(request, 'accounts/blog_dashboard.html', context)

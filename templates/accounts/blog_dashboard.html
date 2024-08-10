@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blog Dashboard</title>
+    <style>
+    body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+    }
+    #dashboard {
+        display: flex;
+    }
+    nav {
+        width: 200px;
+        background-color: #f1f1f1;
+        height: 100vh;
+    }
+    nav ul {
+        list-style-type: none;
+        padding: 0;
+    }
+    nav ul li a {
+        display: block;
+        padding: 10px;
+        text-decoration: none;
+        color: #333;
+    }
+    nav ul li a:hover {
+        background-color: #ddd;
+    }
+    main {
+        flex-grow: 1;
+        padding: 20px;
+    }
+</style>
+</head>
+<body>
+    <div id="dashboard">
+        <nav>
+            <ul>
+                <li><a href="#" onclick="showSection('overview')">Overview</a></li>
+                <li><a href="#" onclick="showSection('posts')">Posts</a></li>
+                <li><a href="#" onclick="showSection('newPost')">New Post</a></li>
+                <li><a href="#" onclick="showSection('analytics')">Analytics</a></li>
+                <li><a href="#" onclick="showSection('settings')">Settings</a></li>
+            </ul>
+        </nav>
+
+        <main id="mainContent">
+            <!-- Content will be dynamically loaded here -->
+        </main>
+    </div>
+
+    <script>
+    const mainContent = document.getElementById('mainContent');
+
+    function showSection(section) {
+        switch(section) {
+            case 'overview':
+                mainContent.innerHTML = '<h2>Overview</h2><p>Welcome to your dashboard!</p>';
+                break;
+            case 'posts':
+                mainContent.innerHTML = `
+                    <h2>Posts</h2>
+                    <table>
+                        <tr>
+                            <th>Title</th>
+                            <th>Date</th>
+                            <th>Actions</th>
+                        </tr>
+                        <tr>
+                            <td>First Post</td>
+                            <td>2024-08-09</td>
+                            <td>
+                                <button onclick="editPost(1)">Edit</button>
+                                <button onclick="deletePost(1)">Delete</button>
+                            </td>
+                        </tr>
+                    </table>
+                `;
+                break;
+            case 'newPost':
+                mainContent.innerHTML = `
+                    <h2>New Post</h2>
+                    <form onsubmit="return false;">
+                        <input type="text" placeholder="Title" required><br><br>
+                        <textarea placeholder="Content" required></textarea><br><br>
+                        <button onclick="submitPost()">Publish</button>
+                    </form>
+                `;
+                break;
+            case 'analytics':
+                mainContent.innerHTML = '<h2>Analytics</h2><p>Your blog analytics will appear here.</p>';
+                break;
+            case 'settings':
+                mainContent.innerHTML = '<h2>Settings</h2><p>Manage your blog settings here.</p>';
+                break;
+        }
+    }
+
+    function editPost(id) {
+        alert('Editing post ' + id);
+        // Implement edit functionality
+    }
+
+    function deletePost(id) {
+        if(confirm('Are you sure you want to delete this post?')) {
+            alert('Deleting post ' + id);
+            // Implement delete functionality
+        }
+    }
+
+    function submitPost() {
+        alert('Post submitted!');
+        // Implement post submission
+    }
+
+    // Show overview by default
+    showSection('overview');
+</script>
+</body>
+</html>

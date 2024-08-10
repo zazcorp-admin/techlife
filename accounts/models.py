@@ -12,3 +12,7 @@ class Profile(BaseModel):
     profile_image = models.ImageField(upload_to='profile', blank= True)
 
 
+    def __str__(self):
+        return self.user.username
+
+

@@ -636,7 +636,7 @@
                                     <ul class="metabar-block">
                                     <li class="icon"><a href="#"><i class="fas fa-bookmark"></i></a></li>
                                     <li class="icon"><a href="#"><i class="fas fa-bell"></i></a></li>
-                                    <li><a href="#"><img src="/media/assets/images/others/author.png" alt="Author Images"></a></li>
+                                    <li><a href="{% url 'dashboard' %}"><img src="/media/{{request.user.profile.profile_image}}" alt="Author Images"></a></li>
                                     <li><a href="{% url 'logout'  %}">logout</a></li>
                                 </ul>
                                 {% else %}
