@@ -5,6 +5,7 @@ from base import BaseModel
 from django.contrib.auth.models import User
 from taggit.managers import TaggableManager
 
+
 # Create your models here.
 
 
@@ -19,6 +20,7 @@ class Category(BaseModel):
 
     def __str__(self):
         return self.category_name
+
 
 class BlogPost(BaseModel):
     author = models.ForeignKey(User, on_delete=models.CASCADE, related_name='blog_posts')
@@ -35,4 +37,3 @@ class BlogPost(BaseModel):
 
     def __str__(self):
         return self.title
-

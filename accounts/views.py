@@ -61,4 +61,4 @@ def logout_page(request):
 def dashboard(request):
     context = {}
 
-    return render(request, 'accounts/blog_dashboard.html', context)
+    return render(request, 'accounts/dashboard.html', context)
