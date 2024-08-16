@@ -17,18 +17,19 @@ class BlogPostForm(forms.ModelForm):
 
     category = forms.ModelChoiceField(
         queryset= Category.objects.all(),
-        widget=forms.Select(attrs={'class': 'form-control'})
+        widget=forms.Select(attrs={'class': 'form-label', 'for': 'postCategory', 'placeholder':'Select a category'})
     )
     tags = TagField(
         required=False,
         widget=forms.TextInput(attrs={
             'class': 'form-control',
-            'placeholder': 'Enter tags separated by commas'
+            'placeholder': 'Enter tags separated by commas',
+            'id':  'postTags'
         })
     )
     cover_pic = forms.ImageField(
         required=False,
-        widget=forms.FileInput(attrs={'class': 'form-control-file'})
+        widget=forms.FileInput(attrs={'class': 'form-control', 'type':'file', 'id':'postImage', 'accept': "image/*"})
     )
 
     class Meta:
@@ -44,8 +45,8 @@ class BlogPostForm(forms.ModelForm):
             if field != 'content' and field != 'cover_pic':
                 self.fields[field].widget.attrs.update({'class': 'form-control'})
 
-    def clean_tags(self):
-        tags = self.cleaned_data.get('tags')
-        if tags:
-            tags = [tag.strip().lower() for tag in tags.split(',') if tag.strip()]
-        return tags
+    # def clean_tags(self):
+    #     tags = self.cleaned_data.get('tags')
+    #     if tags:
+    #         tags = [tag.strip().lower() for tag in tags.split(',') if tag.strip()]
+    #     return tags

@@ -1,5 +1,5 @@
-from django.shortcuts import render
-from pyexpat.errors import messages
+from django.shortcuts import render, redirect
+from django.contrib import messages
 
 from .forms import BlogPostForm
 from .models import BlogPost, Category
@@ -32,16 +32,19 @@ def post_details(request, slug):
 
 
 def add_blog(request):
-    form = BlogPostForm()
     if request.method == 'POST':
         form = BlogPostForm(request.POST, request.FILES)
         if form.is_valid():
             fm = form.save(commit=False)
+            fm.author = request.user
             fm.save()
-            fm.save_m2m()
             messages.success(request, 'Your post has been added.')
+            return redirect('dashboard')  # Replace with your actual URL name
         else:
+            print(form.errors)
             messages.warning(request, 'Something went wrong. Please try again.')
+    else:
+        form = BlogPostForm()
 
     context = {
         'form': form,

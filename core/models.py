@@ -28,7 +28,7 @@ class BlogPost(BaseModel):
     category = models.ForeignKey(Category, on_delete=models.CASCADE, related_name='blog_posts', null=True, blank=True)
     content = models.TextField()
     cover_pic = models.ImageField(upload_to='blog_posts/cover_pics', blank=True, null=True)
-    tags = TaggableManager()
+    tags = TaggableManager(blank=True)
     slug = models.SlugField(unique=True, null=True, blank=True)
 
     def save(self, *args, **kwargs):
