@@ -3,6 +3,7 @@ from django.contrib import messages
 
 from .forms import BlogPostForm, CategoryForm
 from .models import BlogPost, Category, Tag
+from django.db.models import Q
 
 
 def index(request):
@@ -130,4 +131,16 @@ def delete_tag(request, slug):
     tag = Tag.objects.get(slug=slug)
     tag.delete()
     return redirect('dashboard')
+
+
+def search_results(request):
+    query = request.GET.get('q')
+    results = None
+    if query:
+        results = BlogPost.objects.filter(Q(title__icontains=query) | Q(content__icontains=query))
+    context = {
+        'query': query,
+        'results': results
+    }
+    return render(request, 'core/search.html', context)
 
