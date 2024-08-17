@@ -42,7 +42,6 @@ INSTALLED_APPS = [
     'core',
     'accounts',
     'django_summernote',
-    'taggit',
 ]
 
 SUMMERNOTE_CONFIG = {

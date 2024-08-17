@@ -2,6 +2,8 @@ from django.contrib import messages
 from django.shortcuts import render, HttpResponseRedirect, redirect
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
+from core.models import Category, BlogPost
+
 
 # Create your views here.
 def signup_page(request):
@@ -59,6 +61,15 @@ def logout_page(request):
 
 
 def dashboard(request):
-    context = {}
+    categories = Category.objects.all().order_by('-created_at')
+    blogs_posts = BlogPost.objects.all().order_by('-created_at')
+    context = {
+        'categories': categories,
+        'blogs_posts': blogs_posts
+    }
 
     return render(request, 'accounts/dashboard.html', context)
+
+
+
+

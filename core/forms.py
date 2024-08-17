@@ -1,7 +1,6 @@
 from django import forms
 from .models import BlogPost, Category
 from django.contrib.auth.models import User
-from taggit.forms import TagField
 from django_summernote.widgets import SummernoteWidget
 from django_summernote.fields import SummernoteTextField
 
@@ -18,14 +17,6 @@ class BlogPostForm(forms.ModelForm):
     category = forms.ModelChoiceField(
         queryset= Category.objects.all(),
         widget=forms.Select(attrs={'class': 'form-label', 'for': 'postCategory', 'placeholder':'Select a category'})
-    )
-    tags = TagField(
-        required=False,
-        widget=forms.TextInput(attrs={
-            'class': 'form-control',
-            'placeholder': 'Enter tags separated by commas',
-            'id':  'postTags'
-        })
     )
     cover_pic = forms.ImageField(
         required=False,
@@ -45,8 +36,15 @@ class BlogPostForm(forms.ModelForm):
             if field != 'content' and field != 'cover_pic':
                 self.fields[field].widget.attrs.update({'class': 'form-control'})
 
-    # def clean_tags(self):
-    #     tags = self.cleaned_data.get('tags')
-    #     if tags:
-    #         tags = [tag.strip().lower() for tag in tags.split(',') if tag.strip()]
-    #     return tags
+class CategoryForm(forms.ModelForm):
+    category_name = forms.CharField(
+        required=True,
+        widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Enter category', 'id': 'categoryName'})
+    )
+    category_pic = forms.ImageField(
+        required=True,
+        widget=forms.FileInput(attrs={'class': 'form-control', 'type': 'file', 'accept': "image/*"})
+    )
+    class Meta:
+        model = Category
+        fields = ['category_name', 'category_pic']

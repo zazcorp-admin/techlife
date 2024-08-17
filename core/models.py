@@ -3,7 +3,12 @@ from django.utils.text import slugify
 
 from base import BaseModel
 from django.contrib.auth.models import User
-from taggit.managers import TaggableManager
+
+from django.core.files.base import ContentFile
+from PIL import Image
+from io import BytesIO
+from django.core.files.storage import default_storage
+import os
 
 
 # Create your models here.
@@ -22,13 +27,21 @@ class Category(BaseModel):
         return self.category_name
 
 
+class Tag(BaseModel):
+    tag_name = models.CharField(max_length=100)
+    slug = models.SlugField(max_length=100, unique=True, null=True, blank=True)
+
+    def __str__(self):
+        return self.tag_name
+
+
 class BlogPost(BaseModel):
     author = models.ForeignKey(User, on_delete=models.CASCADE, related_name='blog_posts')
     title = models.CharField(max_length=255, blank=True, null=True)
     category = models.ForeignKey(Category, on_delete=models.CASCADE, related_name='blog_posts', null=True, blank=True)
     content = models.TextField()
     cover_pic = models.ImageField(upload_to='blog_posts/cover_pics', blank=True, null=True)
-    tags = TaggableManager(blank=True)
+    tags = models.ManyToManyField(Tag, blank=True,related_name='blog_posts')
     slug = models.SlugField(unique=True, null=True, blank=True)
 
     def save(self, *args, **kwargs):
@@ -37,3 +50,5 @@ class BlogPost(BaseModel):
 
     def __str__(self):
         return self.title
+
+

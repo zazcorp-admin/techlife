@@ -85,7 +85,7 @@
                                 <div class="post-meta-wrapper">
                                     <div class="post-meta">
                                         <div class="post-author-avatar border-rounded">
-                                            <img src="/media/assets/images/post-images/author/author-image-3.png" alt="Author Images">
+                                            <img src="/media/{{blog.author.profile.profile_image}}" alt="Author Images">
                                         </div>
                                         <div class="content">
                                             <h6 class="post-author-name">
@@ -129,12 +129,9 @@
                             {% endautoescape %}
 
                             <div class="tagcloud">
-                                <a href="#">Design</a>
-                                <a href="#">Life Style</a>
-                                <a href="#">Web Design</a>
-                                <a href="#">Development</a>
-                                <a href="#">Design</a>
-                                <a href="#">Life Style</a>
+                                {% for tag in blog.tags.all %}
+                                    <a href="#">{{tag}}</a>
+                                {% endfor %}
                             </div>
 
                             <div class="social-share-block">
@@ -383,46 +380,19 @@
                             <!-- Start Single Widget  -->
                             <div class="axil-single-widget widget widget_categories mb--30">
                                 <ul>
-                                    <li class="cat-item">
-                                        <a href="#" class="inner">
-                                            <div class="thumbnail">
-                                                <img src="/media/assets/images/post-images/category-image-01.jpg" alt="">
-                                            </div>
-                                            <div class="content">
-                                                <h5 class="title">Tech</h5>
-                                            </div>
-                                        </a>
-                                    </li>
-                                    <li class="cat-item">
-                                        <a href="#" class="inner">
-                                            <div class="thumbnail">
-                                                <img src="/media/assets/images/post-images/category-image-02.jpg" alt="">
-                                            </div>
-                                            <div class="content">
-                                                <h5 class="title">Style</h5>
-                                            </div>
-                                        </a>
-                                    </li>
-                                    <li class="cat-item">
-                                        <a href="#" class="inner">
-                                            <div class="thumbnail">
-                                                <img src="/media/assets/images/post-images/category-image-03.jpg" alt="">
-                                            </div>
-                                            <div class="content">
-                                                <h5 class="title">Travel</h5>
-                                            </div>
-                                        </a>
-                                    </li>
-                                    <li class="cat-item">
-                                        <a href="#" class="inner">
-                                            <div class="thumbnail">
-                                                <img src="/media/assets/images/post-images/category-image-04.jpg" alt="">
-                                            </div>
-                                            <div class="content">
-                                                <h5 class="title">Food</h5>
-                                            </div>
-                                        </a>
-                                    </li>
+                                    {% for category in categories %}
+                                        <li class="cat-item">
+                                            <a href="#" class="inner">
+                                                <div class="thumbnail">
+                                                    <img src="/media/{{category.category_pic}}" alt="">
+                                                </div>
+                                                <div class="content">
+                                                    <h5 class="title">category</h5>
+                                                </div>
+                                            </a>
+                                        </li>
+                                    {% endfor %}
+                                    
                                 </ul>
                             </div>
                             <!-- End Single Widget  -->

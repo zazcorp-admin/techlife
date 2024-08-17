@@ -140,29 +140,24 @@
                                     <tr>
                                         <th>Title</th>
                                         <th>Author</th>
+                                        <th>Category</th>
                                         <th>Date</th>
                                         <th>Actions</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                        <td>10 Tips for Better Blogging</td>
-                                        <td>John Doe</td>
-                                        <td>2024-03-15</td>
-                                        <td>
-                                            <button class="btn btn-sm btn-primary btn-action">Edit</button>
-                                            <button class="btn btn-sm btn-danger btn-action">Delete</button>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>The Future of AI in Content Creation</td>
-                                        <td>Jane Smith</td>
-                                        <td>2024-03-14</td>
-                                        <td>
-                                            <button class="btn btn-sm btn-primary btn-action">Edit</button>
-                                            <button class="btn btn-sm btn-danger btn-action">Delete</button>
-                                        </td>
-                                    </tr>
+                                    {% for blog_post in blogs_posts %}
+                                        <tr>
+                                            <td>{{blog_post.title| truncatechars:1000 | safe}}</td>
+                                            <td>{{blog_post.author}}</td>
+                                            <td>{{blog_post.category}}</td>
+                                            <td>{{blog_post.created_at}}</td>
+                                            <td>
+                                                <a href="{% url 'edit_blog' blog_post.slug %}"><button class="btn btn-sm btn-primary btn-action">Edit</button></a>
+                                                <a href="{% url 'delete_blog' blog_post.slug %}"><button class="btn btn-sm btn-primary btn-action">Delete</button></a>
+                                            </td>
+                                        </tr>
+                                    {% endfor %}
                                 </tbody>
                             </table>
                         </div>
@@ -175,7 +170,7 @@
                     <div class="card">
                         <div class="card-header d-flex justify-content-between align-items-center">
                             <h5 class="mb-0">All Posts</h5>
-                            <button class="btn btn-primary" ><a href="{% url 'add_blog' %}" class="f-white">Add New Post</a></button>
+                            <a href="{% url 'add_blog' %}" class="btn btn-primary">Add New Post</a>
                         </div>
                         <div class="card-body">
                             <table class="table table-hover">
@@ -189,7 +184,18 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <!-- Add table rows for posts here -->
+                                    {% for blog_post in blogs_posts %}
+                                        <tr>
+                                            <td>{{blog_post.title| truncatechars:1000 | safe}}</td>
+                                            <td>{{blog_post.author}}</td>
+                                            <td>{{blog_post.category}}</td>
+                                            <td>{{blog_post.created_at}}</td>
+                                            <td>
+                                                <a href="{% url 'edit_blog' blog_post.slug %}"><button class="btn btn-sm btn-primary btn-action">Edit</button></a>
+                                                <button class="btn btn-sm btn-danger btn-action">Delete</button>
+                                            </td>
+                                        </tr>
+                                    {% endfor %}
                                 </tbody>
                             </table>
                         </div>
@@ -203,10 +209,10 @@
                         <div class="col-md-6">
                             <div class="card">
                                 <div class="card-header">
-                                    <h5 class="mb-0">Add New Category</h5>
+                                    <a href="{% url 'addCategory' %}" class="btn btn-primary">Add New Category</a>
                                 </div>
-                                <div class="card-body">
-                                    <form>
+                                {% comment %} <div class="card-body">
+                                    <form method="post" novalidate>
                                         <div class="mb-3">
                                             <label for="categoryName" class="form-label">Category Name</label>
                                             <input type="text" class="form-control" id="categoryName" required>
@@ -217,7 +223,7 @@
                                         </div>
                                         <button type="submit" class="btn btn-primary">Add Category</button>
                                     </form>
-                                </div>
+                                </div> {% endcomment %}
                             </div>
                         </div>
                         <div class="col-md-6">
@@ -227,7 +233,31 @@
                                 </div>
                                 <div class="card-body">
                                     <ul class="list-group">
-                                        <!-- Add list items for categories here -->
+                                        <table class="table table-hover">
+                                            <thead>
+                                                <tr>
+                                                    <th>Category Pic</th>
+                                                    <th>Category Name</th>
+                                                    <th>Date</th>
+                                                    <th>Actions</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                {% for category in categories %}
+                                                    <tr>
+                                                        <td><img height="80" width="80" src="/media/{{category.category_pic}}" alt=""></td>
+                                                        <td>{{category.category_name}}</td>
+                                                        <td>{{category.created_at}}</td>
+                                                        <td>
+                                                            <button class="btn btn-sm btn-primary btn-action">Edit</button>
+                                                            <a href="{% url 'deleteCategory' category.slug %}" class="text-decoration-none">
+                                                                <button class="btn btn-sm btn-danger btn-action" type="button">Delete</button>
+                                                            </a>
+                                                        </td>
+                                                    </tr>
+                                                {% endfor %}
+                                            </tbody>
+                                        </table>
                                     </ul>
                                 </div>
                             </div>
