@@ -81,6 +81,25 @@ def delete_category(request, slug):
     category.delete()
     return redirect('dashboard')
 
+def edit_category(request, slug):
+    category = Category.objects.get(slug=slug)
+    form = CategoryForm(instance=category)
+    if request.method == "POST":
+        form = CategoryForm(request.POST, request.FILES, instance=category)
+        if form.is_valid():
+            form.save()
+            return redirect('dashboard')
+        else:
+            print(form.errors)
+            return HttpResponseRedirect(request.path_info)
+    else:
+        form = CategoryForm(instance=category)
+
+    context ={
+        'form':form
+    }
+    return render(request, 'core/add_category.html', context)
+
 
 def edit_blog(request, slug):
     blog = BlogPost.objects.get(slug=slug)
