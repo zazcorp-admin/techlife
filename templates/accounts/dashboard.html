@@ -49,10 +49,20 @@
     </style>
 </head>
 <body>
+
+    <nav class="navbar navbar-light bg-light d-md-none mb-4">
+        <div class="container-fluid">
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#sidebarMenu" aria-controls="sidebarMenu" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+        </div>
+    </nav>
+
+
     <div class="container-fluid">
         <div class="row">
             <!-- Sidebar -->
-            <nav class="col-md-3 col-lg-2 d-md-block sidebar collapse">
+            <nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block bg-dark sidebar collapse">
                 <div class="position-sticky pt-3">
                     <ul class="nav flex-column">
                         <li class="nav-item">
@@ -67,7 +77,7 @@
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="#" data-page="categories">
-                                <i class="bi bi-tag"></i> Categories
+                                <i class="bi bi-tag"></i> Categories and Tags
                             </a>
                         </li>
                         <li class="nav-item">
@@ -100,7 +110,7 @@
                             <div class="card bg-primary text-white">
                                 <div class="card-body">
                                     <h5 class="card-title">Total Posts</h5>
-                                    <h2 class="card-text">150</h2>
+                                    <h2 class="card-text">{{request.user.profile.total_post}}</h2>
                                 </div>
                             </div>
                         </div>
@@ -124,7 +134,7 @@
                             <div class="card bg-info text-white">
                                 <div class="card-body">
                                     <h5 class="card-title">Categories</h5>
-                                    <h2 class="card-text">12</h2>
+                                    <h2 class="card-text">{{request.user.profile.total_category}}</h2>
                                 </div>
                             </div>
                         </div>
@@ -207,56 +217,67 @@
                     <h1 class="h2 mb-4">Manage Categories</h1>
                     <div class="row">
                         <div class="col-md-6">
-                            <div class="card">
-                                <div class="card-header">
+                            <div class="card mb-4">
+                                <div class="card-header d-flex justify-content-between align-items-center">
+                                    <h5 class="mb-0">Existing Category</h5>
                                     <a href="{% url 'addCategory' %}" class="btn btn-primary">Add New Category</a>
                                 </div>
-                                {% comment %} <div class="card-body">
-                                    <form method="post" novalidate>
-                                        <div class="mb-3">
-                                            <label for="categoryName" class="form-label">Category Name</label>
-                                            <input type="text" class="form-control" id="categoryName" required>
-                                        </div>
-                                        <div class="mb-3">
-                                            <label for="categoryDescription" class="form-label">Description</label>
-                                            <textarea class="form-control" id="categoryDescription" rows="3"></textarea>
-                                        </div>
-                                        <button type="submit" class="btn btn-primary">Add Category</button>
-                                    </form>
-                                </div> {% endcomment %}
+                                <div class="card-body">
+                                    <table class="table table-hover">
+                                        <thead>
+                                            <tr>
+                                                <th>Category Pic</th>
+                                                <th>Category Name</th>
+                                                <th>Date</th>
+                                                <th>Actions</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {% for category in categories %}
+                                                <tr>
+                                                    <td><img height="80" width="80" src="/media/{{category.category_pic}}" alt=""></td>
+                                                    <td>{{category.category_name}}</td>
+                                                    <td>{{category.created_at}}</td>
+                                                    <td>
+                                                        <a href="{% url 'editCategory' category.slug %}" class="btn btn-sm btn-primary btn-action m-1">Edit</a>
+                                                        <a href="{% url 'deleteCategory' category.slug %}" class="btn btn-sm btn-danger btn-action m-1">Delete</a>
+                                                    </td>
+                                                </tr>
+                                            {% endfor %}
+                                        </tbody>
+                                    </table>
+                                </div>
                             </div>
                         </div>
                         <div class="col-md-6">
-                            <div class="card">
-                                <div class="card-header">
-                                    <h5 class="mb-0">Existing Categories</h5>
-                                </div>
+                            <div class="card-header">
+                                <h5 class="mb-0">Existing Tags</h5>
+                                <form class="d-flex align-items-center mt-2"  method="post" novalidate>
+                                    {% csrf_token %}
+                                    <input type="text" class="form-control me-2" name="tag_name" placeholder="Enter new tag" required>
+                                    <button type="submit" class="btn btn-primary">Add New Tag</button>
+                                </form>
+                            </div>
                                 <div class="card-body">
-                                    <ul class="list-group">
-                                        <table class="table table-hover">
-                                            <thead>
-                                                <tr>
-                                                    <th>Category Pic</th>
-                                                    <th>Category Name</th>
-                                                    <th>Date</th>
-                                                    <th>Actions</th>
+                                    <table class="table table-hover">
+                                        <thead>
+                                            <tr>
+                                                <th>Tag</th>
+                                                <th>Actions</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                           {% for tag in tags %}
+                                                <tr>                                                        
+                                                    <td>{{tag.tag_name}}</td>
+                                                    <td>
+                                                        {% comment %} <a href="#" class="btn btn-sm btn-primary btn-action m-1">Edit</a> {% endcomment %}
+                                                        <a href="{% url 'deleteTag' tag.slug %}" class="btn btn-sm btn-danger btn-action m-1">Delete</a>
+                                                    </td>
                                                 </tr>
-                                            </thead>
-                                            <tbody>
-                                                {% for category in categories %}
-                                                    <tr>
-                                                        <td><img height="80" width="80" src="/media/{{category.category_pic}}" alt=""></td>
-                                                        <td>{{category.category_name}}</td>
-                                                        <td>{{category.created_at}}</td>
-                                                        <td>
-                                                            <a href="{% url 'editCategory' category.slug %}"><button class="btn btn-sm btn-primary btn-action m-2">Edit</button></a>
-                                                            <a href="{% url 'deleteCategory' category.slug %}"><button class="btn btn-sm btn-primary btn-action">Delete</button></a>
-                                                        </td>
-                                                    </tr>
-                                                {% endfor %}
-                                            </tbody>
-                                        </table>
-                                    </ul>
+                                           {% endfor %}
+                                        </tbody>
+                                    </table>
                                 </div>
                             </div>
                         </div>
@@ -352,6 +373,27 @@
                 document.getElementById(this.getAttribute('data-page') + '-page').style.display = 'block';
             });
         });
+
+
+        document.querySelectorAll('.nav-link').forEach(link => {
+        link.addEventListener('click', function(e) {
+            e.preventDefault();
+            // Remove active class from all links
+            document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
+            // Add active class to clicked link
+            this.classList.add('active');
+            
+            // Hide all pages
+            document.querySelectorAll('.page').forEach(page => page.style.display = 'none');
+            // Show the selected page
+            document.getElementById(this.getAttribute('data-page') + '-page').style.display = 'block';
+            
+            // Close the sidebar on mobile after clicking a link
+            if (window.innerWidth < 768) {
+                document.querySelector('#sidebarMenu').classList.remove('show');
+            }
+        });
+    });
     </script>
 </body>
 </html>

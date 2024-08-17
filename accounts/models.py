@@ -1,6 +1,7 @@
 from django.db import models
 from base import BaseModel
 from django.contrib.auth.models import User
+from core.models import *
 
 
 # Create your models here.
@@ -14,5 +15,11 @@ class Profile(BaseModel):
 
     def __str__(self):
         return self.user.username
+
+    def total_post(self):
+        return BlogPost.objects.all().count()
+
+    def total_category(self):
+        return Category.objects.all().count()
 
 

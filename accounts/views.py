@@ -2,7 +2,7 @@ from django.contrib import messages
 from django.shortcuts import render, HttpResponseRedirect, redirect
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
-from core.models import Category, BlogPost
+from core.models import Category, BlogPost, Tag
 
 
 # Create your views here.
@@ -63,12 +63,32 @@ def logout_page(request):
 def dashboard(request):
     categories = Category.objects.all().order_by('-created_at')
     blogs_posts = BlogPost.objects.all().order_by('-created_at')
+    tags = Tag.objects.all().order_by('-created_at')
+
+    if request.method == 'POST':
+        tag_name = request.POST.get('tag_name')
+
+        if len(tag_name) > 0:
+            tag = Tag.objects.create(tag_name=tag_name)
+            tag.save()
+            return HttpResponseRedirect(request.path_info)
+        else:
+            print("Something went wrong")
+
+
     context = {
         'categories': categories,
-        'blogs_posts': blogs_posts
+        'blogs_posts': blogs_posts,
+        'tags': tags
     }
 
     return render(request, 'accounts/dashboard.html', context)
+
+
+
+
+def custom_404_view(request, exception):
+    return render(request, 'base/new_404.html', status=404)
 
 
 

@@ -34,6 +34,10 @@ class Tag(BaseModel):
     def __str__(self):
         return self.tag_name
 
+    def save(self, *args, **kwargs):
+        self.slug = slugify(self.tag_name)
+        super(Tag, self).save(*args, **kwargs)
+
 
 class BlogPost(BaseModel):
     author = models.ForeignKey(User, on_delete=models.CASCADE, related_name='blog_posts')

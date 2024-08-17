@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect, HttpResponseRedirect
 from django.contrib import messages
 
 from .forms import BlogPostForm, CategoryForm
-from .models import BlogPost, Category
+from .models import BlogPost, Category, Tag
 
 
 def index(request):
@@ -123,5 +123,11 @@ def edit_blog(request, slug):
 def delete_blog(request, slug):
     blog = BlogPost.objects.get(slug=slug)
     blog.delete()
+    return redirect('dashboard')
+
+
+def delete_tag(request, slug):
+    tag = Tag.objects.get(slug=slug)
+    tag.delete()
     return redirect('dashboard')
 

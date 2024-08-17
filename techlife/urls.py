@@ -21,6 +21,10 @@ from django.conf.urls.static import static
 from django.conf import settings
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 
+## for error handling for broken link
+from django.conf.urls import handler400
+from accounts.views import custom_404_view
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('core.urls')),
@@ -32,3 +36,12 @@ if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 urlpatterns += staticfiles_urlpatterns()
+
+from django.conf import settings
+
+handler404 = 'accounts.views.custom_404_view'
+
+if settings.DEBUG:
+    urlpatterns += [
+        path('404/', custom_404_view, kwargs={'exception': Exception('Page not Found')}),
+    ]
