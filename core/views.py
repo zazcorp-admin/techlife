@@ -2,8 +2,11 @@ from django.shortcuts import render, redirect, HttpResponseRedirect
 from django.contrib import messages
 
 from .forms import BlogPostForm, CategoryForm
-from .models import BlogPost, Category, Tag
+from .models import BlogPost, Category, Tag, Like
 from django.db.models import Q
+
+from django.shortcuts import get_object_or_404
+from django.contrib.auth.decorators import login_required
 
 
 def index(request):
@@ -27,9 +30,11 @@ def post_list(request):
 def post_details(request, slug):
     blog = BlogPost.objects.get(slug=slug)
     categories = Category.objects.all()
+    user_has_liked = BlogPost.like_set.filter(user=request.user).exists() if request.user.is_authenticated else False
     context = {
         'blog': blog,
         'categories': categories,
+        'user_has_liked': user_has_liked,
     }
     return render(request, 'core/post_details.html', context)
 
@@ -144,3 +149,12 @@ def search_results(request):
     }
     return render(request, 'core/search.html', context)
 
+
+def like(request, post_uid):
+    post = get_object_or_404(BlogPost, id=post_uid)
+    like, created = Like.objects.get_or_create(user= request.user, post= post)
+
+    if not created:
+        like.delete()
+
+    return HttpResponseRedirect(request.path_info)

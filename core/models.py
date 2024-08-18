@@ -55,6 +55,9 @@ class BlogPost(BaseModel):
     def __str__(self):
         return self.title
 
+    def like_count(self):
+        return self.like_set.count()
+
 
 class Like(BaseModel):
     user = models.ForeignKey(User, on_delete = models.CASCADE, related_name='likes')
@@ -64,5 +67,6 @@ class Like(BaseModel):
         unique_together = ('user', 'post')
     def __str__(self):
         return self.post.title
+
 
 

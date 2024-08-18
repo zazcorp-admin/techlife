@@ -14,6 +14,7 @@ urlpatterns = [
     path('edit_category/<slug>/', views.edit_category, name="editCategory"),
     path('delete_tag/<slug>/', views.delete_tag, name="deleteTag"),
     path('search_result/', views.search_results, name='search_results'),
+    path('like/<id>/', views.like, name='like'),
 
 
 
