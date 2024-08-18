@@ -56,3 +56,13 @@ class BlogPost(BaseModel):
         return self.title
 
 
+class Like(BaseModel):
+    user = models.ForeignKey(User, on_delete = models.CASCADE, related_name='likes')
+    post = models.ForeignKey(BlogPost, on_delete = models.CASCADE, related_name='likes')
+
+    class Meta:
+        unique_together = ('user', 'post')
+    def __str__(self):
+        return self.post.title
+
+

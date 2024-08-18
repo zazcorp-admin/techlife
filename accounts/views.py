@@ -85,6 +85,11 @@ def dashboard(request):
     return render(request, 'accounts/dashboard.html', context)
 
 
+def user_dashboard(request):
+    context = {}
+    return  render(request, 'accounts/user_dashboard.html', context)
+
+
 
 
 def custom_404_view(request, exception):
