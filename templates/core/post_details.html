@@ -136,7 +136,7 @@
 
                             <div class="social-share-block">
                                 <div class="post-like">
-                                    <a href="{% url "like" blog.uuid%}"><i class="fal fa-thumbs-up"></i><span>2.2k Like</span></a>
+                                    <a href="{% url 'like' blog.uuid %}"><i class="fal fa-thumbs-up"></i><span>{{ blog.like_set.count }} Like</span></a>
                                 </div>
                                 <ul class="social-icon icon-rounded-transparent md-size">
                                     <li><a href="#"><i class="fab fa-facebook-f"></i></a></li>
